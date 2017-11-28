@@ -1,0 +1,4 @@
+*.db
+*.swp
+token.php*
+config.php

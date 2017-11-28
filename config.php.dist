@@ -1,0 +1,9 @@
+<?php
+
+$app_id = '';
+$app_secret = '';
+$version = 'v2.11';
+$redirect_uri = 'https://cloud.kamenphoto.fr/fbapp.php';
+$basedir=$_ENV['HOME']."/projects/KameNFacebook/";
+$pageID = '436574837654322';
+

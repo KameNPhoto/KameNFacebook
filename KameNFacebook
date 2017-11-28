@@ -1,0 +1,81 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists($basedir.'config.php')) { include $basedir.'config.php'; } else { die(); };
+
+if (file_exists($basedir.'album.php'))  { include $basedir.'album.php'; }
+if (file_exists($basedir.'auth.php'))   { include $basedir.'auth.php'; }
+if (file_exists($basedir.'base.php'))   { include $basedir.'base.php'; }
+
+# Token to access FB
+$accessToken = ''; $pageToken = '';
+if (file_exists($basedir.'token.php')) { include $basedir.'token.php'; }
+if ($accessToken == '') { $accessToken = getAccessToken($version, $app_id, $app_secret, $redirect_uri); }
+if ($pageToken == '') { $pageToken = getPageToken($version, $accessToken, $pageID); }
+
+echo "+------------------+\n";
+echo "| Liste des albums |\n";
+echo "+------------------+\n";
+$uri = "https://graph.facebook.com/$version/me/albums?fields=name,id,can_upload,count,event";
+$ret = doGetRequest($uri, $pageToken);
+foreach ($ret['data'] as $key=>$value) {
+  if ($value['can_upload']) {
+    echo $value['id']." -> ".$value['name']." (".$value['count'].")\n";
+  }
+}
+
+$resp = true;
+echo "Which album do you want to upload photos ? (type NEW to create a new album).\n";
+while ($resp) {
+  $handle = fopen ("php://stdin","r");
+  $line = fgets($handle);
+  if(trim($line) === 'NEW'){
+    $albumId = createAlbum($version, $pageToken);
+  } else {
+    $albumId = trim($line);
+  }
+  if (checkAlbumId($version, $pageToken, $albumId)) {
+    $resp = false;
+  } else {
+    echo "An error occured. Please enter NEW or a correct album ID.\n";
+  }
+  fclose($handle);
+}
+$ret = uploadPhotosToAlbum($version, $pageToken, $albumId);
+
+
+
+
+exit() ;
+
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+
+$uri = "https://graph.facebook.com/$version/$pageID";
+$curl = curl_init($uri);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $accessToken"));
+$return = curl_exec($curl);
+curl_close($curl);
+
+echo "------------------------------------------------------------------------------------------------------\n";
+echo var_dump(json_decode($return, true));
+echo "\n";
+echo "------------------------------------------------------------------------------------------------------\n";
+
+$uri = "https://graph.facebook.com/$version/me/accounts";
+$curl = curl_init($uri);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $accessToken"));
+$return = curl_exec($curl);
+curl_close($curl);
+
+echo "------------------------------------------------------------------------------------------------------\n";
+echo var_dump(json_decode($return, true));
+echo "\n";
+echo "------------------------------------------------------------------------------------------------------\n";
+
