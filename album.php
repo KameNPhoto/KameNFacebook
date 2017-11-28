@@ -32,7 +32,7 @@ function checkAlbumID($version, $pageToken, $ID) {
 }
 
 function uploadPhotosToAlbum($version, $token, $albumID) {
-  $data = array();
+  $data = array(); $header = array();
   $files = array();
   // Récupération du dossier source des photos
   echo "Dossier de stockage des photos : ";
@@ -60,13 +60,19 @@ function uploadPhotosToAlbum($version, $token, $albumID) {
   }
   echo "============================================================================================================".PHP_EOL;
   foreach ($files as $key=>$value) {
+    $header[] = "Authorization: OAuth $token";
+    $header[] = "Content-Type:multipart/form-data";
     $data['caption'] = $p.$key.")";
-    $data['source'] = "@".$value;
-    $data['aid'] = $albumID;
+    $data['filedata'] = "@".$value;
+    $data['filename'] = $key.".jpg";
+    $data['filesize'] = filesize($value);
+    //$data['aid'] = $albumID;
     echo "Uploading to album $albumID :".PHP_EOL;
     print_r($data);
-    $ret = doPostRequest("https://graph.facebook.com/$version/me/photos", $token, $data);
+
+    $ret = doPostFileRequest("https://graph.facebook.com/$version/$albumID/photos", $data, $header, $data['filesize']);
     print_r($ret);
+    echo PHP_EOL;
     echo "============================================================================================================".PHP_EOL;
   }
 }

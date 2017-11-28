@@ -25,3 +25,20 @@ function doPostRequest($uri, $token, array $data = array()) {
   curl_close($curl);
   return json_decode($return, true);
 }
+
+function doPostFileRequest($uri, array $data = array(), array $header = array(), $filesize) {
+  $curl = curl_init($uri);
+  curl_setopt($curl, CURLOPT_POST, true);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
+  curl_setopt($curl, CURLOPT_FRESH_CONNECT, true);
+  curl_setopt($curl, CURLOPT_HEADER, true);
+  curl_setopt($curl, CURLOPT_TIMEOUT, 4);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+  curl_setopt($curl, CURLOPT_INFILESIZE, $filesize);
+  $return = curl_exec($curl);
+  curl_close($curl);
+  print_r($return);
+  return json_decode($return, true);
+}
