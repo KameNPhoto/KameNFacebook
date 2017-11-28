@@ -31,23 +31,42 @@ function checkAlbumID($version, $pageToken, $ID) {
   return false;
 }
 
-function uploadPhotosToAlbum($version, $token, $ID) {
+function uploadPhotosToAlbum($version, $token, $albumID) {
   $data = array();
   $files = array();
+  // Récupération du dossier source des photos
   echo "Dossier de stockage des photos : ";
   $h = fopen("php://stdin","r");
   $l = fgets($h);
-  $fold = realpath(trim($l));
+  $ll = preg_replace('/~/',$_ENV['HOME'],$l);
+  $f = realpath(trim($ll));
   fclose($h);
-  echo "Folder is : $fold".PHP_EOL;
-  echo "Content is : \n";
-  $folder = scandir($fold);
-  print_r($folder);
+  // Récupération de l'identifiant photographe
+  echo "Identifiant de photographe : ";
+  $h = fopen("php://stdin","r");
+  $p = trim(fgets($h));
+  fclose($h);
+  // Analyse du dossier à la recherche de photos
+  $folder = scandir($f);
   foreach($folder as $value) {
-    $fullpath=$folder.'/'.$value;
-    if (is_file($folder.'/'.$value)) {
-      $files[] = $folder.'/'.$value;
+    if (preg_match('/^\.+$/',$value)) { continue; }
+    if (!preg_match('/.+\.jpg$/i',$value)) { continue; }
+    $fullpath=$f.'/'.$value;
+    preg_match('/([0-9]{1,4})\./',$value, $id);
+    if (is_file($fullpath)) {
+      $files[$id[1]] = $fullpath;
+      #$photoid[$id[1]] = $id[1];
     }
   }
-  print_r($files);
+  echo "============================================================================================================".PHP_EOL;
+  foreach ($files as $key=>$value) {
+    $data['caption'] = $p.$key.")";
+    $data['source'] = "@".$value;
+    $data['aid'] = $albumID;
+    echo "Uploading to album $albumID :".PHP_EOL;
+    print_r($data);
+    $ret = doPostRequest("https://graph.facebook.com/$version/me/photos", $token, $data);
+    print_r($ret);
+    echo "============================================================================================================".PHP_EOL;
+  }
 }
