@@ -1,5 +1,7 @@
 <?php
 
+use Facebook\FileUpload\FacebookFile;
+
 function createAlbum($version, $pageToken) {
   $data = array();
   echo "Nom de l'album : ";
@@ -62,15 +64,13 @@ function uploadPhotosToAlbum($version, $token, $albumID) {
   foreach ($files as $key=>$value) {
     $header[] = "Authorization: OAuth $token";
     $header[] = "Content-Type:multipart/form-data";
+    $photo = new FacebookFile($value);
     $data['caption'] = $p.$key.")";
-    $data['filedata'] = "@".$value;
-    $data['filename'] = $key.".jpg";
-    $data['filesize'] = filesize($value);
-    //$data['aid'] = $albumID;
+    $data['source'] = $photo;
     echo "Uploading to album $albumID :".PHP_EOL;
     print_r($data);
 
-    $ret = doPostFileRequest("https://graph.facebook.com/$version/$albumID/photos", $data, $header, $data['filesize']);
+    $ret = doPostFileRequest("https://graph.facebook.com/$version/me/photos", $data, $header);
     print_r($ret);
     echo PHP_EOL;
     echo "============================================================================================================".PHP_EOL;
