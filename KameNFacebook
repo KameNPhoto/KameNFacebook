@@ -10,16 +10,18 @@ if (file_exists(__DIR__ . '/auth.php'))   { include __DIR__ . '/auth.php'; }
 if (file_exists(__DIR__ . '/base.php'))   { include __DIR__ . '/base.php'; }
 
 # Token to access FB
-$accessToken = ''; $pageToken = '';
+$config['accessToken'] = ''; $config['pageToken'] = '';
 if (file_exists(__DIR__ . '/token.php')) { include __DIR__ . '/token.php'; }
-if ($accessToken == '') { $accessToken = getAccessToken($version, $app_id, $app_secret, $redirect_uri); }
-if ($pageToken == '') { $pageToken = getPageToken($version, $accessToken, $pageID); }
+if ($config['accessToken'] == '') { getAccessToken(); }
+if ($config['pageToken'] == '')   { getPageToken(); }
 
+print_r($config);
 echo "+------------------+\n";
 echo "| Liste des albums |\n";
 echo "+------------------+\n";
-$uri = "https://graph.facebook.com/$version/me/albums?fields=name,id,can_upload,count,event";
-$ret = doGetRequest($uri, $pageToken);
+$uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+echo $uri.PHP_EOL;
+$ret = doGetRequest($uri);
 foreach ($ret['data'] as $key=>$value) {
   if ($value['can_upload']) {
     echo $value['id']." -> ".$value['name']." (".$value['count'].")\n";
@@ -32,18 +34,18 @@ while ($resp) {
   $handle = fopen ("php://stdin","r");
   $line = fgets($handle);
   if(trim($line) === 'NEW'){
-    $albumId = createAlbum($version, $pageToken);
+    $albumId = createAlbum();
   } else {
     $albumId = trim($line);
   }
-  if (checkAlbumId($version, $pageToken, $albumId)) {
+  if (checkAlbumId($albumId)) {
     $resp = false;
   } else {
     echo "An error occured. Please enter NEW or a correct album ID.\n";
   }
   fclose($handle);
 }
-$ret = uploadPhotosToAlbum($version, $pageToken, $albumId);
+$ret = uploadPhotosToAlbum($albumId);
 
 
 

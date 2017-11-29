@@ -2,7 +2,8 @@
 
 use Facebook\FileUpload\FacebookFile;
 
-function createAlbum($version, $pageToken) {
+function createAlbum() {
+  global $config;
   $data = array();
   echo "Nom de l'album : ";
   $h = fopen("php://stdin","r");
@@ -16,13 +17,15 @@ function createAlbum($version, $pageToken) {
   $data['message'] = trim($l);
   fclose($h);
 
-  $ret = doPostRequest("https://graph.facebook.com/$version/me/albums?fields=name,id,can_upload,count,event", $pageToken, $data);
+  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+  $ret = doPostRequest($uri, $config['pageToken'], $data);
   return $ret['id'];
 }
 
-function checkAlbumID($version, $pageToken, $ID) {
-  $uri = "https://graph.facebook.com/$version/me/albums?fields=name,id,can_upload,count";
-  $ret = doGetRequest($uri, $pageToken);
+function checkAlbumID($ID) {
+  global $config;
+  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+  $ret = doGetRequest($uri, $config['pageToken']);
   foreach ($ret['data'] as $key=>$value) {
     if ($value['can_upload']) {
       if ($value['id'] == $ID) {
@@ -33,7 +36,8 @@ function checkAlbumID($version, $pageToken, $ID) {
   return false;
 }
 
-function uploadPhotosToAlbum($version, $token, $albumID) {
+function uploadPhotosToAlbum($albumID) {
+  global $config;
   $data = array(); $header = array();
   $files = array();
   // Récupération du dossier source des photos
@@ -62,7 +66,7 @@ function uploadPhotosToAlbum($version, $token, $albumID) {
   }
   echo "============================================================================================================".PHP_EOL;
   foreach ($files as $key=>$value) {
-    $header[] = "Authorization: OAuth $token";
+    $header[] = "Authorization: OAuth ".$config['pageToken'];
     $header[] = "Content-Type:multipart/form-data";
     $photo = new FacebookFile($value);
     $data['caption'] = $p.$key.")";
@@ -70,7 +74,8 @@ function uploadPhotosToAlbum($version, $token, $albumID) {
     echo "Uploading to album $albumID :".PHP_EOL;
     print_r($data);
 
-    $ret = doPostFileRequest("https://graph.facebook.com/$version/$albumID/photos", $data, $header);
+    $uri = "https://graph.facebook.com/".$config['version']."/".$albumID."/photos";
+    $ret = doPostHeaderRequest($uri, $header, $data);
     print_r($ret);
     echo PHP_EOL;
     echo "============================================================================================================".PHP_EOL;

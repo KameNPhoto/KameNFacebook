@@ -11,7 +11,7 @@ function doGetRequest($uri, $token = '') {
   return json_decode($return, true);
 }
 
-function doPostRequest($uri, $token, array $data = array()) {
+function doPostRequest($uri, $token = '', array $data = array()) {
   $curl = curl_init($uri);
   curl_setopt($curl, CURLOPT_POST, true);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -19,14 +19,14 @@ function doPostRequest($uri, $token, array $data = array()) {
   curl_setopt($curl, CURLOPT_FRESH_CONNECT, true);
   curl_setopt($curl, CURLOPT_HEADER, false);
   curl_setopt($curl, CURLOPT_TIMEOUT, 4);
-  curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $token"));
+  if ($token !== '') { curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $token")); };
   curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
   $return = curl_exec($curl);
   curl_close($curl);
   return json_decode($return, true);
 }
 
-function doPostFileRequest($uri, array $data = array(), array $header = array()) {
+function doPostHeaderRequest($uri, array $header = array(), array $data = array()) {
   $curl = curl_init($uri);
   curl_setopt($curl, CURLOPT_POST, true);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
