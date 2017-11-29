@@ -26,7 +26,7 @@ function doPostRequest($uri, $token, array $data = array()) {
   return json_decode($return, true);
 }
 
-function doPostFileRequest($uri, array $data = array(), array $header = array(), $filesize) {
+function doPostFileRequest($uri, array $data = array(), array $header = array()) {
   $curl = curl_init($uri);
   curl_setopt($curl, CURLOPT_POST, true);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -36,7 +36,6 @@ function doPostFileRequest($uri, array $data = array(), array $header = array(),
   curl_setopt($curl, CURLOPT_TIMEOUT, 4);
   curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
   curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-  curl_setopt($curl, CURLOPT_INFILESIZE, $filesize);
   $return = curl_exec($curl);
   curl_close($curl);
   print_r($return);
