@@ -1,15 +1,17 @@
 #!/usr/bin/env php
 <?php
 
-if (file_exists($basedir.'config.php')) { include $basedir.'config.php'; } else { die(); };
 
-if (file_exists($basedir.'album.php'))  { include $basedir.'album.php'; }
-if (file_exists($basedir.'auth.php'))   { include $basedir.'auth.php'; }
-if (file_exists($basedir.'base.php'))   { include $basedir.'base.php'; }
+
+if (file_exists(__DIR__ . '/config.php')) { include __DIR__ . '/config.php'; } else { die('Could not load config'.PHP_EOL); }
+
+if (file_exists(__DIR__ . '/album.php'))  { include __DIR__ . '/album.php'; }
+if (file_exists(__DIR__ . '/auth.php'))   { include __DIR__ . '/auth.php'; }
+if (file_exists(__DIR__ . '/base.php'))   { include __DIR__ . '/base.php'; }
 
 # Token to access FB
 $accessToken = ''; $pageToken = '';
-if (file_exists($basedir.'token.php')) { include $basedir.'token.php'; }
+if (file_exists(__DIR__ . '/token.php')) { include __DIR__ . '/token.php'; }
 if ($accessToken == '') { $accessToken = getAccessToken($version, $app_id, $app_secret, $redirect_uri); }
 if ($pageToken == '') { $pageToken = getPageToken($version, $accessToken, $pageID); }
 
