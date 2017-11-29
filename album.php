@@ -70,7 +70,7 @@ function uploadPhotosToAlbum($version, $token, $albumID) {
     echo "Uploading to album $albumID :".PHP_EOL;
     print_r($data);
 
-    $ret = doPostFileRequest("https://graph.facebook.com/$version/me/photos", $data, $header);
+    $ret = doPostFileRequest("https://graph.facebook.com/$version/$albumID/photos", $data, $header);
     print_r($ret);
     echo PHP_EOL;
     echo "============================================================================================================".PHP_EOL;
