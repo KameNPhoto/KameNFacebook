@@ -27,11 +27,11 @@ function checkAlbumID($ID) {
   foreach ($ret['data'] as $key=>$value) {
     if ($value['can_upload']) {
       if ($value['id'] == $ID) {
-        return true;
+        return TRUE;
       }
     }
   }
-  return false;
+  return FALSE;
 }
 
 function listAlbums() {
