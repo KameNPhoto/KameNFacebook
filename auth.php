@@ -11,10 +11,10 @@ function writeToken() {
 
 function getAccessToken() {
   global $config;
-  echo "Open this URL in a web browser and allow access to the Facebook Graph on behalf of your user account:\n";
-  echo "    https://www.facebook.com/".$config['version']."/dialog/oauth?client_id=".$config['app_id']."&redirect_uri=".$config['redirect_uri']."&scope=email,public_profile,manage_pages,publish_pages\n";
+  echo "Open this URL in a web browser and allow access to the Facebook Graph on behalf of your user account:".PHP_EOL;
+  echo "    https://www.facebook.com/".$config['version']."/dialog/oauth?client_id=".$config['app_id']."&redirect_uri=".$config['redirect_uri']."&scope=email,public_profile,manage_pages,publish_pages".PHP_EOL;
   sleep(10);
-  echo "\n\nEnter the code given by the webpage after authenticating in facebook : ";
+  echo PHP_EOL.PHP_EOL."Enter the code given by the webpage after authenticating in facebook : ";
   $handle = fopen ("php://stdin","r");
   $line = fgets($handle);
   $access_code = trim($line);
