@@ -15,7 +15,40 @@ if (file_exists(__DIR__ . '/token.php')) { include __DIR__ . '/token.php'; }
 if ($config['accessToken'] == '') { getAccessToken(); }
 if ($config['pageToken'] == '')   { getPageToken(); }
 
+// Listing photo folder ready to upload
+$f = scandir($config['cloudpath']);
+// Cleaning array
+$content = array();
+foreach($f as $index=>$folder) {
+  if (!preg_match('/^([0-9]{8}) ([0-9]+) /',$folder)) { unset($f[$index]); }
 }
+// Parsing array
+#foreach($f as $index=>$folder) {
+#  preg_match('/^([0-9]{8}) ([0-9]+) /',$folder,$match);
+#  $content[$match[2]] = $folder;
+#}
+
+$resp = true;
+while ($resp) {
+  echo "Listing current Shoots directories :".PHP_EOL;
+  foreach($f as $index=>$folder) {
+    preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$folder,$match);
+    echo "  [".$index."] => ".$match[1]." ".$match[3].PHP_EOL;
+  }
+  echo "Which folder do you want to upload ?".PHP_EOL;
+  $h = fopen("php://stdin","r");
+  $reply = fgets($h);
+  if (!preg_match('/^[0-9]+$/',$reply)) { echo "Please enter the ID of the folder.".PHP_EOL; continue; }
+  if (!isset($f[(int) $reply])) { echo "Please enter an existing ID.".PHP_EOL; continue; }
+  preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$f[(int) $reply],$m);
+  if (!checkAlbumID($m[2])) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
+  $resp = false;
+  $choice = $f[(int) $reply];
+}
+
+echo "Selected folder is : ".$choice.PHP_EOL;
+
+exit();
 
 $resp = true;
 echo "Which album do you want to upload photos ? (type NEW to create a new album).\n";
