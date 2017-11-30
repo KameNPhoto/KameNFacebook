@@ -52,7 +52,12 @@ function uploadPhotoToAlbum($albumID, $link, $caption) {
   $data['caption'] = $caption.")";
   $data['url'] = $link;
   $uri = "https://graph.facebook.com/".$config['version']."/".$albumID."/photos";
-  doPostRequest($uri, $config['pageToken'], $data);
+  $ret = doPostRequest($uri, $config['pageToken'], $data);
+  if ($ret == FALSE) {
+    return FALSE;
+  } else {
+    return TRUE;
+  }
 }
 
 function uploadPhotosToAlbum($albumID) {

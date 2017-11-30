@@ -62,7 +62,10 @@ foreach($pgrapher as $p) {
     $caption = strtoupper(substr($p,0,1)).$m[1];
     $photouri = preg_replace('/ /','%20',"https://".$config['clouduri']."/".$choice."/".$p."/".$photo);
     echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
-    uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
+    $ret = FALSE;
+    while (!$ret) {
+      $ret = uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
+    }
   }
 }
 
