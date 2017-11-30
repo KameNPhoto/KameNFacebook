@@ -41,3 +41,11 @@ function doPostHeaderRequest($uri, array $header = array(), array $data = array(
   print_r($return);
   return json_decode($return, true);
 }
+
+function scandirStrict($folder) {
+  $f = scandir($folder);
+  foreach($f as $index=>$fold) {
+    if (preg_match('/^\.+$/',$fold)) { unset($f[$index]); }
+  }
+  return $f;
+}

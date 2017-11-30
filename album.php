@@ -1,7 +1,5 @@
 <?php
 
-use Facebook\FileUpload\FacebookFile;
-
 function createAlbum() {
   global $config;
   $data = array();
@@ -45,6 +43,16 @@ function listAlbums() {
       echo $value['id']." -> ".$value['name']." (".$value['count'].")\n";
     }
   }
+}
+
+function uploadPhotoToAlbum($albumID, $link, $caption) {
+  global $config;
+  $data = array();
+  $files = array();
+  $data['caption'] = $caption.")";
+  $data['url'] = $link;
+  $uri = "https://graph.facebook.com/".$config['version']."/".$albumID."/photos";
+  doPostRequest($uri, $config['pageToken'], $data);
 }
 
 function uploadPhotosToAlbum($albumID) {
