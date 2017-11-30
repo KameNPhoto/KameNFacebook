@@ -63,6 +63,7 @@ foreach($pgrapher as $p) {
     $photouri = preg_replace('/ /','%20',"https://".$config['clouduri']."/".$choice."/".$p."/".$photo);
     echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
     uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
+    sleep(2);
   }
 }
 
@@ -89,6 +90,7 @@ $error = FALSE;
         $photouri = preg_replace('/ /','%20',"https://".$config['clouduri']."/".$choice."/".$p."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
+        sleep(5);
         $error = TRUE;
       }
     }
