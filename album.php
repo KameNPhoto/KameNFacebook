@@ -36,6 +36,17 @@ function checkAlbumID($ID) {
   return false;
 }
 
+function listAlbums() {
+  global $config;
+  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+  $ret = doGetRequest($uri, $config['pageToken']);
+  foreach ($ret['data'] as $key=>$value) {
+    if ($value['can_upload']) {
+      echo $value['id']." -> ".$value['name']." (".$value['count'].")\n";
+    }
+  }
+}
+
 function uploadPhotosToAlbum($albumID) {
   global $config;
   $data = array(); $header = array();
