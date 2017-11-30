@@ -28,7 +28,7 @@ foreach($f as $index=>$folder) {
 #  $content[$match[2]] = $folder;
 #}
 
-$resp = true;
+$resp = TRUE;
 while ($resp) {
   echo "Listing current Shoots directories :".PHP_EOL;
   foreach($f as $index=>$folder) {
@@ -42,7 +42,7 @@ while ($resp) {
   if (!isset($f[(int) $reply])) { echo "Please enter an existing ID.".PHP_EOL; continue; }
   preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$f[(int) $reply],$m);
   if (!checkAlbumID($m[2])) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
-  $resp = false;
+  $resp = FALSE;
   $choice = $f[(int) $reply];
 }
 preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$choice,$m);
