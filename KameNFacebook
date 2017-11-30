@@ -68,29 +68,6 @@ foreach($pgrapher as $p) {
 
 exit();
 
-$resp = true;
-echo "Which album do you want to upload photos ? (type NEW to create a new album).\n";
-while ($resp) {
-  $handle = fopen ("php://stdin","r");
-  $line = fgets($handle);
-  if(trim($line) === 'NEW'){
-    $albumId = createAlbum();
-  } else {
-    $albumId = trim($line);
-  }
-  if (checkAlbumId($albumId)) {
-    $resp = false;
-  } else {
-    echo "An error occured. Please enter NEW or a correct album ID.\n";
-  }
-  fclose($handle);
-}
-$ret = uploadPhotosToAlbum($albumId);
-
-
-
-
-exit() ;
 
 #####################################################
 #####################################################
