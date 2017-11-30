@@ -15,13 +15,11 @@ if (file_exists(__DIR__ . '/token.php')) { include __DIR__ . '/token.php'; }
 if ($config['accessToken'] == '') { getAccessToken(); }
 if ($config['pageToken'] == '')   { getPageToken(); }
 
-print_r($config);
 echo "+------------------+\n";
 echo "| Liste des albums |\n";
 echo "+------------------+\n";
 $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
-echo $uri.PHP_EOL;
-$ret = doGetRequest($uri);
+$ret = doGetRequest($uri, $config['pageToken']);
 foreach ($ret['data'] as $key=>$value) {
   if ($value['can_upload']) {
     echo $value['id']." -> ".$value['name']." (".$value['count'].")\n";
