@@ -45,6 +45,24 @@ function listAlbums() {
   }
 }
 
+function getPhotoList($albumID) {
+  global $config;
+  $output = array();
+  $uri = "https://graph.facebook.com/".$config['version']."/".$albumID."/photos?fields=name&limit=100";
+
+  $loop = TRUE;
+  while ($loop) {
+    $return = doGetRequest($uri, $config['pageToken']);
+    $output = array_merge($output, $return['data']);
+    if (isset($return['paging']['next'])) {
+      $uri = $return['paging']['next'];
+    } else {
+      $loop = FALSE;
+    }
+  }
+  return $output;
+}
+
 function uploadPhotoToAlbum($albumID, $link, $caption) {
   global $config;
   $data = array();
