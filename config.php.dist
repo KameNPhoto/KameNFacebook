@@ -7,5 +7,5 @@ $config['redirect_uri'] = 'https://cloud.kamenphoto.fr/fbapp.php';
 $config['pageID'] = '436574837654322';
 $config['cloudpath'] = '/home/user/nextcloud';
 $config['clouduri'] = 'fbcloud.kamenphoto.fr';
-$config['cloudcred'] = 'login:password"
+$config['cloudcred'] = 'login:password";
 
