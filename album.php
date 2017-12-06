@@ -22,7 +22,7 @@ function createAlbum() {
 
 function checkAlbumID($ID) {
   global $config;
-  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count&limit=100";
   $ret = doGetRequest($uri, $config['pageToken']);
   foreach ($ret['data'] as $key=>$value) {
     if ($value['can_upload']) {
@@ -36,7 +36,7 @@ function checkAlbumID($ID) {
 
 function listAlbums() {
   global $config;
-  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count";
+  $uri = "https://graph.facebook.com/".$config['version']."/me/albums?fields=name,id,can_upload,count&limit=100";
   $ret = doGetRequest($uri, $config['pageToken']);
   foreach ($ret['data'] as $key=>$value) {
     if ($value['can_upload']) {
