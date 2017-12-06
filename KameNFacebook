@@ -22,11 +22,6 @@ $content = array();
 foreach($f as $index=>$folder) {
   if (!preg_match('/^([0-9]{8}) ([0-9]+) /',$folder)) { unset($f[$index]); }
 }
-// Parsing array
-#foreach($f as $index=>$folder) {
-#  preg_match('/^([0-9]{8}) ([0-9]+) /',$folder,$match);
-#  $content[$match[2]] = $folder;
-#}
 
 $resp = TRUE;
 while ($resp) {
