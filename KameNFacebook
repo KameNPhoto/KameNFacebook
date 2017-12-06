@@ -71,7 +71,7 @@ $error = FALSE;
         $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
-        sleep(3);
+        sleep(2);
         $error = TRUE;
       } else {
         // TODO move files to published photos folder
