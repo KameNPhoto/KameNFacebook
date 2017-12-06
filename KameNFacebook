@@ -64,8 +64,7 @@ $error = FALSE;
       $caption = strtoupper(substr($p,0,1)).$m[1].")";
       $check = FALSE;
       foreach($photolist as $ULphoto) {
-        if ($check) { continue; }
-        if ($caption == $ULphoto['name']) { $check = TRUE; }
+        if ($caption == $ULphoto['name']) { $check = TRUE; break; }
       }
       if ($check == FALSE) {
         if ($turn > 1) { echo "/!\ WARNING /!\ Photo $caption is not uploaded !!!".PHP_EOL; }
