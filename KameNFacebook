@@ -83,11 +83,13 @@ while ($error) {
     }
   }
 
-  echo "Waiting $sleeptime seconds for not overloading API".PHP_EOL;
-  sleep($sleeptime);
   if ($turn == 1) { $error = TRUE; }
-  $turn++;
-  $sleeptime = $sleeptime * 5;
+  if ($error) {
+    echo "Waiting $sleeptime seconds for not overloading API".PHP_EOL;
+    sleep($sleeptime);
+    $turn++;
+    $sleeptime = $sleeptime * 5;
+  }
 }
 
 exit();
