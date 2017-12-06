@@ -83,6 +83,7 @@ $error = FALSE;
 
   echo "Waiting $sleeptime seconds for not overloading API".PHP_EOL;
   sleep($sleeptime);
+  if ($turn == 1) { $error = TRUE; }
   $turn++;
   $sleeptime = $sleeptime * 5;
 }
