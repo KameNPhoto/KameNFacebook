@@ -8,6 +8,7 @@ if (file_exists(__DIR__ . '/config.php')) { include __DIR__ . '/config.php'; } e
 if (file_exists(__DIR__ . '/album.php'))  { include __DIR__ . '/album.php'; }
 if (file_exists(__DIR__ . '/auth.php'))   { include __DIR__ . '/auth.php'; }
 if (file_exists(__DIR__ . '/base.php'))   { include __DIR__ . '/base.php'; }
+if (file_exists(__DIR__ . '/file.php'))   { include __DIR__ . '/file.php'; }
 
 # Token to access FB
 $config['accessToken'] = ''; $config['pageToken'] = '';
@@ -54,7 +55,8 @@ $error = TRUE;
 $turn = 1;
 $sleeptime = 12;
 while ($error) {
-$error = FALSE;
+  $error = FALSE;
+  echo "Begin turn $turn".PHP_EOL;
   // Get list of photos in album
   $photolist = getPhotoList($choices['albumID']);
   foreach($pgrapher as $p) {
@@ -76,7 +78,7 @@ $error = FALSE;
       } else {
         if ($turn == 1) { continue; }
         // TODO move files to published photos folder
-        moveFileToPublished($photo);
+        moveFileToPublished($config['cloudPath']."/".$choice."/".$p."/".$photo, $config['cloudPathPublished']."/".$choice."/".$p."/".$photo);
       }
     }
   }
