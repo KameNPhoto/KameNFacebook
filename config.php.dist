@@ -9,4 +9,4 @@ $config['cloudpath'] = '/home/user/nextcloud';
 $config['clouduri'] = 'fbcloud.kamenphoto.fr';
 $config['cloudcred'] = 'login:password";
 
-$DEBUG=FALSE;
+$debug=FALSE;
