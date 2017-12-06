@@ -16,7 +16,7 @@ if ($config['accessToken'] == '') { getAccessToken(); }
 if ($config['pageToken'] == '')   { getPageToken(); }
 
 // Listing photo folder ready to upload
-$f = scandir($config['cloudpath']);
+$f = scandir($config['cloudPath']);
 // Cleaning array
 $content = array();
 foreach($f as $index=>$folder) {
@@ -52,7 +52,7 @@ $choices['name'] = $m[3];
 echo "Selected folder is : ".$choices['date']." ".$choices['albumID']." ".$choices['name'].PHP_EOL;
 
 // Check which photographers are in folders
-$pgrapher = scandirStrict($config['cloudpath']."/".$choice);
+$pgrapher = scandirStrict($config['cloudPath']."/".$choice);
 
 // Validation of upload
 $error = TRUE;
@@ -63,7 +63,7 @@ $error = FALSE;
   // Get list of photos in album
   $photolist = getPhotoList($choices['albumID']);
   foreach($pgrapher as $p) {
-    $dir = scandirStrict($config['cloudpath']."/".$choice."/".$p);
+    $dir = scandirStrict($config['cloudPath']."/".$choice."/".$p);
     foreach($dir as $photo) {
       preg_match('/[_-]([0-9]+)\./',$photo,$m);
       $caption = strtoupper(substr($p,0,1)).$m[1].")";
@@ -74,11 +74,14 @@ $error = FALSE;
       }
       if ($check == FALSE) {
         if ($turn > 1) { echo "/!\ WARNING /!\ Photo $caption is not uploaded !!!".PHP_EOL; }
-        $photouri = preg_replace('/ /','%20',"https://".$config['clouduri']."/".$choice."/".$p."/".$photo);
+        $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
         sleep(3);
         $error = TRUE;
+      } else {
+        // TODO move files to published photos folder
+        moveFileToPublished($photo);
       }
     }
   }
