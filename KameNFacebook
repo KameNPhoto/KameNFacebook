@@ -74,6 +74,7 @@ $error = FALSE;
         sleep(2);
         $error = TRUE;
       } else {
+        if ($turn == 1) { continue; }
         // TODO move files to published photos folder
         moveFileToPublished($photo);
       }
