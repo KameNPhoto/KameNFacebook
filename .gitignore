@@ -2,4 +2,4 @@
 *.swp
 token.php*
 config.php
-DEBUG
+DEBUG.*
