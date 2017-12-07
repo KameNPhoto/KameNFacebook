@@ -5,7 +5,7 @@ function doGetRequest($uri, $token = '') {
   fwrite(STDERR, "");
   $curl = curl_init($uri);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-  if ($debug) { curl_setopt($curl, CURLOPT_HEADER, TRUE); } else { curl_setopt($curl, CURLOPT_HEADER, FALSE); }
+  curl_setopt($curl, CURLOPT_HEADER, TRUE);
   curl_setopt($curl, CURLOPT_TIMEOUT, 4);
   if ($token !== '') { curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $token")); };
   $ret = curl_exec($curl);
@@ -41,7 +41,7 @@ function doPostRequest($uri, $token = '', array $data = array()) {
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
   curl_setopt($curl, CURLOPT_FORBID_REUSE, TRUE);
   curl_setopt($curl, CURLOPT_FRESH_CONNECT, TRUE);
-  if ($debug) { curl_setopt($curl, CURLOPT_HEADER, TRUE); } else { curl_setopt($curl, CURLOPT_HEADER, FALSE); }
+  curl_setopt($curl, CURLOPT_HEADER, TRUE);
   curl_setopt($curl, CURLOPT_TIMEOUT, 4);
   if ($token !== '') { curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: OAuth $token")); };
   curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
