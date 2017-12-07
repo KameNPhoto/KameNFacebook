@@ -91,6 +91,7 @@ while ($error) {
     sleep($sleeptime);
     $turn++;
     $sleeptime = $sleeptime * 5;
+    if ($sleeptime > 300) { $sleeptime = 300; }
   }
 }
 
