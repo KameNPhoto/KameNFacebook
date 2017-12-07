@@ -10,6 +10,8 @@ if (file_exists(__DIR__ . '/auth.php'))   { include __DIR__ . '/auth.php'; }
 if (file_exists(__DIR__ . '/base.php'))   { include __DIR__ . '/base.php'; }
 if (file_exists(__DIR__ . '/file.php'))   { include __DIR__ . '/file.php'; }
 
+if (!$debug) { error_reporting(E_ALL ^ E_NOTICE); }
+
 # Token to access FB
 $config['accessToken'] = ''; $config['pageToken'] = '';
 if (file_exists(__DIR__ . '/token.php')) { include __DIR__ . '/token.php'; }
