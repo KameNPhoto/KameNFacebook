@@ -72,7 +72,15 @@ while ($error) {
       }
       if ($check == FALSE) {
         if ($turn > 1) { echo "/!\ WARNING /!\ Photo $caption is not uploaded !!!".PHP_EOL; }
-        $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$photo);
+        // Resize image
+        $sourceFolder = $config['cloudPath']."/".$choice."/".$p;
+        $resizeFolder = $config['cloudPath']."/".$choice."/".$p."/".$config['imgSize'];
+        if (!is_dir($resizeFolder)) { mkdir($resizeFolder, 0755, TRUE); }
+        $resized = new Imagick($sourceFolder."/".$photo);
+        $resized->resizeImage($config['imgSize'],$config['imgSize'],Imagick::FILTER_CATROM,1,TRUE);
+        $resized->writeImage($resizeFolder."/".$photo);
+        // End of resize image
+        $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$config['imgSize']."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
         sleep(2);
@@ -81,6 +89,7 @@ while ($error) {
         if ($turn == 1) { continue; }
         // TODO move files to published photos folder
         moveFileToPublished($config['cloudPath']."/".$choice."/".$p."/".$photo, $config['cloudPathPublished']."/".$choice."/".$p."/".$photo);
+        unlink($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)
       }
     }
   }

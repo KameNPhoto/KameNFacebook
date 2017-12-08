@@ -9,5 +9,6 @@ $config['cloudPath'] = '/home/user/nextcloud/Photos';
 $config['cloudPathPublished'] = '/home/user/nextcloud/Photos-Published';
 $config['cloudUri'] = 'fbcloud.kamenphoto.fr';
 $config['cloudCred'] = 'login:password";
+$config['imgSize'] = 2048;
 
 $debug=FALSE;
