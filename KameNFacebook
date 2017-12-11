@@ -89,7 +89,8 @@ while ($error) {
         if ($turn == 1) { continue; }
         // TODO move files to published photos folder
         moveFileToPublished($config['cloudPath']."/".$choice."/".$p."/".$photo, $config['cloudPathPublished']."/".$choice."/".$p."/".$photo);
-        unlink($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)
+        unlink($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo);
+        clearstatcache();
       }
     }
   }
