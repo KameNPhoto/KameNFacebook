@@ -62,6 +62,11 @@ while ($error) {
   // Get list of photos in album
   $photolist = getPhotoList($choices['albumID']);
   foreach($pgrapher as $p) {
+    // Resize all images before uplod
+    echo "Resize photos for photograph ".$p.".".PHP_EOL;
+    resizeImageFromFolder($config['cloudPath']."/".$choice."/".$p, $config['imgSize']);
+    // Wait for sync
+    sleep(5);
     $dir = scandirStrict($config['cloudPath']."/".$choice."/".$p);
     foreach($dir as $photo) {
       preg_match('/[_-]([0-9]+)\./',$photo,$m);
@@ -72,14 +77,6 @@ while ($error) {
       }
       if ($check == FALSE) {
         if ($turn > 1) { echo "/!\ WARNING /!\ Photo $caption is not uploaded !!!".PHP_EOL; }
-        // Resize image
-        $sourceFolder = $config['cloudPath']."/".$choice."/".$p;
-        $resizeFolder = $config['cloudPath']."/".$choice."/".$p."/".$config['imgSize'];
-        if (!is_dir($resizeFolder)) { mkdir($resizeFolder, 0755, TRUE); }
-        $resized = new Imagick($sourceFolder."/".$photo);
-        $resized->resizeImage($config['imgSize'],$config['imgSize'],Imagick::FILTER_CATROM,1,TRUE);
-        $resized->writeImage($resizeFolder."/".$photo);
-        // End of resize image
         $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$config['imgSize']."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);

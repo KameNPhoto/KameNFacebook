@@ -13,3 +13,18 @@ function moveFileToPublished($src, $dest) {
   clearstatcache();
   return;
 }
+
+function resizeImageFromFolder($folder, $resize) {
+  global $debug;
+  $sourceFolder = $folder;
+  $resizeFolder = $folder.'/'.$resize;
+  $dir = scandirStrict($sourceFolder);
+  if (!is_dir($resizeFolder)) { mkdir($resizeFolder, 0755, TRUE); }
+  foreach($dir as $photo) {
+    if ($debug) { echo "Resizing image ".$photo.PHP_EOL; }
+    if (file_exists($resizeFolder."/".$photo)) { continue; }
+    $resized = new Imagick($sourceFolder."/".$photo);
+    $resized->resizeImage($resize,$resize,Imagick::FILTER_CATROM,1,TRUE);
+    $resized->writeImage($resizeFolder."/".$photo);
+  }
+}
