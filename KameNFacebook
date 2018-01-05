@@ -31,7 +31,7 @@ while ($resp) {
   echo "Listing current Shoots directories :".PHP_EOL;
   foreach($f as $index=>$folder) {
     preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$folder,$match);
-    echo "  [".$index."] => ".$match[1]." ".$match[3].PHP_EOL;
+    echo "  [".$index."] => ".$match[1]." ".$match[3]." (".$match[2].")".PHP_EOL;
   }
   echo "Which folder do you want to upload ?".PHP_EOL;
   $h = fopen("php://stdin","r");
