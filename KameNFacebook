@@ -26,6 +26,7 @@ foreach($f as $index=>$folder) {
   if (!preg_match('/^([0-9]{8}) ([0-9]+) /',$folder)) { unset($f[$index]); }
 }
 
+// Choice of folder to upload
 $resp = TRUE;
 while ($resp) {
   echo "Listing current Shoots directories :".PHP_EOL;
@@ -43,6 +44,8 @@ while ($resp) {
   $resp = FALSE;
   $choice = $f[(int) $reply];
 }
+
+// Extract elements of folder names
 preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$choice,$m);
 $choices['date'] = $m[1];
 $choices['albumID'] = $m[2];
@@ -51,6 +54,8 @@ echo "Selected folder is : ".$choices['date']." ".$choices['albumID']." ".$choic
 
 // Check which photographers are in folders
 $pgrapher = scandirStrict($config['cloudPath']."/".$choice);
+
+// TODO : Only get folder of 3 upper case for photographers list
 
 // Validation of upload
 $error = TRUE;
