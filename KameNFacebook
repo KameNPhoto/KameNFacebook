@@ -40,9 +40,16 @@ while ($resp) {
   if (!preg_match('/^[0-9]+$/',$reply)) { echo "Please enter the ID of the folder.".PHP_EOL; continue; }
   if (!isset($f[(int) $reply])) { echo "Please enter an existing ID.".PHP_EOL; continue; }
   preg_match('/^([0-9]{8}) ([0-9]+) (.+$)/',$f[(int) $reply],$m);
-  if (!checkAlbumID($m[2])) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
-  $resp = FALSE;
-  $choice = $f[(int) $reply];
+  if ($m[2] == "000000000000000") {
+    // Album doesn't exist on FB so create it.
+    echo "Album for this folder doesn't exist. Creating it.".PHP_EOL;
+    $returnID = createAlbum();
+    copy("","");
+  } else {
+    if (!checkAlbumID($m[2])) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
+    $resp = FALSE;
+    $choice = $f[(int) $reply];
+  }
 }
 
 // Extract elements of folder names
