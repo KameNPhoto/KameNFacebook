@@ -94,7 +94,7 @@ while ($error) {
         $photouri = preg_replace('/ /','%20',"https://".$config['cloudUri']."/".$choice."/".$p."/".$config['imgSize']."/".$photo);
         echo " => Uploading ".$photo." with caption \"".$caption."\" via uri ".$photouri.PHP_EOL;
         uploadPhotoToAlbum($choices['albumID'], $photouri, $caption);
-        sleep(2);
+        //sleep(1);
         $error = TRUE;
       } else {
         if ($turn == 1) { continue; }
