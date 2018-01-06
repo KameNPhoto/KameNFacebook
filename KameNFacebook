@@ -44,12 +44,13 @@ while ($resp) {
     // Album doesn't exist on FB so create it.
     echo "Album for this folder doesn't exist. Creating it.".PHP_EOL;
     $returnID = createAlbum();
-    copy("","");
+    rename($config['cloudpath']."/".$f[(int) $reply],$config['cloudpath']."/".$m[1]." ".$returnID." ".$m[3]);
   } else {
-    if (!checkAlbumID($m[2])) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
-    $resp = FALSE;
-    $choice = $f[(int) $reply];
+    $returnID = $m[2];
   }
+  if (!checkAlbumID($returnID)) { echo "This album doesn't exist on facebook or refuse new uploads.".PHP_EOL; continue; }
+  $resp = FALSE;
+  $choice = $m[1]." ".$returnID." ".$m[3];
 }
 
 // Extract elements of folder names
