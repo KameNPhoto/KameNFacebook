@@ -69,7 +69,7 @@ function uploadPhotoToAlbum($albumID, $link, $caption) {
   $files = array();
   $data['caption'] = $caption;
   $data['url'] = $link;
-  $data['no_story'] = true;
+  //$data['no_story'] = true;
   $uri = "https://graph.facebook.com/".$config['version']."/".$albumID."/photos";
   $ret = doPostRequest($uri, $config['pageToken'], $data);
   if ($ret == FALSE) {
