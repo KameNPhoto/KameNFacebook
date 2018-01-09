@@ -65,7 +65,13 @@ echo "Selected folder is : ".$choices['date']." ".$choices['albumID']." ".$choic
 // Check which photographers are in folders
 $pgrapher = scandirStrict($config['cloudPath']."/".$choice);
 
-// TODO : Only get folder of 3 upper case for photographers list
+// Only get folder of 3 upper case for photographers list
+foreach($pgrapher as $key=>$value) {
+  if (!preg_match('/^[A-Z]{3}$/',$value)) { unset($pgrapher[$index]); }
+}
+if ($debug) { fwrite(STDERR, "List of photographers : ".print_r($pgrapher,TRUE).PHP_EOL); 
+
+if (count($pgrapher) = 0) { exit("There is no photograph for this album."); }
 
 // Validation of upload
 $error = TRUE;
