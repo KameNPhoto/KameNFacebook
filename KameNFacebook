@@ -88,6 +88,8 @@ while ($error) {
     resizeImageFromFolder($config['cloudPath']."/".$choice."/".$p, $config['imgSize']);
     // Wait for sync
     sleep(5);
+  }
+  foreach($pgrapher as $p) {
     $dir = scandirStrict($config['cloudPath']."/".$choice."/".$p);
     foreach($dir as $photo) {
       if (!is_file($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)) { continue; }
