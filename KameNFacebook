@@ -45,6 +45,8 @@ while ($resp) {
     echo "Album for this folder doesn't exist. Creating it.".PHP_EOL;
     $returnID = createAlbum();
     rename($config['cloudPath']."/".$f[(int) $reply],$config['cloudPath']."/".$m[1]." ".$returnID." ".$m[3]);
+    // Waiting 5 seconds for DAV sync
+    sleep(5);
   } else {
     $returnID = $m[2];
   }
