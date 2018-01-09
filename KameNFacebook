@@ -90,8 +90,8 @@ while ($error) {
     sleep(5);
     $dir = scandirStrict($config['cloudPath']."/".$choice."/".$p);
     foreach($dir as $photo) {
-      if (!file_exists($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)) { echo "There is an error with file/folder ".$photo.". It has been deleted or image thumbnail creation has failed.".PHP_EOL; continue; }
       if (!is_file($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)) { continue; }
+      if (!file_exists($config['cloudPath']."/".$choice."/".$p."/".$config['imgSize']."/".$photo)) { echo "There is an error with file/folder ".$photo.". It has been deleted or image thumbnail creation has failed.".PHP_EOL; continue; }
       preg_match('/[_-]([0-9]+)\./',$photo,$m);
       $caption = strtoupper(substr($p,0,1)).$m[1].")";
       $check = FALSE;
