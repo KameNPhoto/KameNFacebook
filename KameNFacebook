@@ -69,7 +69,7 @@ $pgrapher = scandirStrict($config['cloudPath']."/".$choice);
 foreach($pgrapher as $key=>$value) {
   if (!preg_match('/^[A-Z]{3}$/',$value)) { unset($pgrapher[$index]); }
 }
-if ($debug) { fwrite(STDERR, "List of photographers : ".print_r($pgrapher,TRUE).PHP_EOL); 
+if ($debug) { fwrite(STDERR, "List of photographers : ".print_r($pgrapher,TRUE).PHP_EOL); }
 
 if (count($pgrapher) = 0) { exit("There is no photograph for this album."); }
 
