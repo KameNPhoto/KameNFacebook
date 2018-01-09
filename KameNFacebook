@@ -44,7 +44,7 @@ while ($resp) {
     // Album doesn't exist on FB so create it.
     echo "Album for this folder doesn't exist. Creating it.".PHP_EOL;
     $returnID = createAlbum();
-    rename($config['cloudpath']."/".$f[(int) $reply],$config['cloudpath']."/".$m[1]." ".$returnID." ".$m[3]);
+    rename($config['cloudPath']."/".$f[(int) $reply],$config['cloudPath']."/".$m[1]." ".$returnID." ".$m[3]);
   } else {
     $returnID = $m[2];
   }
