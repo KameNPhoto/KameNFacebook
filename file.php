@@ -27,5 +27,7 @@ function resizeImageFromFolder($folder, $resize) {
     $resized = new Imagick($sourceFolder."/".$photo);
     $resized->resizeImage($resize,$resize,Imagick::FILTER_CATROM,1,TRUE);
     $resized->writeImage($resizeFolder."/".$photo);
+    echo ".";
   }
+  echo PHP_EOL;
 }
