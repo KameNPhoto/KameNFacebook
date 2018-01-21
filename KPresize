@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__ . '/config.php')) { include __DIR__ . '/config.php'; } else { die('Could not load config'.PHP_EOL); }
+
+if (file_exists(__DIR__ . '/album.php'))  { include __DIR__ . '/album.php'; }
+if (file_exists(__DIR__ . '/auth.php'))   { include __DIR__ . '/auth.php'; }
+if (file_exists(__DIR__ . '/base.php'))   { include __DIR__ . '/base.php'; }
+if (file_exists(__DIR__ . '/file.php'))   { include __DIR__ . '/file.php'; }
+
+if (!$debug) { error_reporting(E_ALL ^ E_NOTICE); }
+
+// Listing photo folder ready to upload
+$f = scandir($config['cloudPath']);
+// Cleaning array
+$content = array();
+foreach($f as $index=>$folder) {
+  if (!preg_match('/^([0-9]{8}) ([0-9]+) /',$folder)) { unset($f[$index]); }
+}
+
+foreach($f as $choice) {
+  echo "== ".$choice.PHP_EOL;
+  $pgrapher = scandirStrict($config['cloudPath']."/".$choice);
+  foreach($pgrapher as $key=>$value) {
+    if (is_file($config['cloudPath']."/".$choice."/".$value)) { unset($pgrapher[$key]); continue; }
+    if (!preg_match('/^[A-Z]{3}$/',$value)) { unset($pgrapher[$key]); continue; }
+  }
+  if (count($pgrapher) == 0) { echo "There is no photograph for this album.".PHP_EOL; }
+  foreach($pgrapher as $p) {
+    // Resize all images
+    echo "Resize photos for photograph ".$p.".".PHP_EOL;
+    resizeImageFromFolder($config['cloudPath']."/".$choice."/".$p, $config['imgSize']);
+  }
+}
+
+exit();
