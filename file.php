@@ -22,8 +22,8 @@ function resizeImageFromFolder($folder, $resize) {
   if (!is_dir($resizeFolder)) { mkdir($resizeFolder, 0755, TRUE); }
   foreach($dir as $photo) {
     if (!is_file($sourceFolder."/".$photo)) { continue; }
-    if ($debug) { fwrite(STDERR, "Resizing image ".$photo.PHP_EOL); }
     if (file_exists($resizeFolder."/".$photo)) { continue; }
+    if ($debug) { fwrite(STDERR, "Resizing image ".$photo.PHP_EOL); }
     $resized = new Imagick($sourceFolder."/".$photo);
     $resized->resizeImage($resize,$resize,Imagick::FILTER_CATROM,1,TRUE);
     $resized->writeImage($resizeFolder."/".$photo);
