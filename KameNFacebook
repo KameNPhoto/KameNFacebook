@@ -74,6 +74,10 @@ if ($debug) { fwrite(STDERR, "List of photographers : ".print_r($pgrapher,TRUE).
 
 if (count($pgrapher) == 0) { exit("There is no photograph for this album."); }
 
+echo "List of photographs : \n";
+print_r($pgrapher);
+echo "\n";
+
 // Validation of upload
 $error = TRUE;
 $turn = 1;
