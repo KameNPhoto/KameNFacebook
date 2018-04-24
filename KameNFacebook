@@ -123,8 +123,7 @@ while ($error) {
     echo "Waiting $sleeptime seconds for not overloading API".PHP_EOL;
     sleep($sleeptime);
     $turn++;
-    $sleeptime = $sleeptime * 5;
-    if ($sleeptime > 300) { $sleeptime = 300; }
+    $sleeptime = 30;
   }
 }
 
