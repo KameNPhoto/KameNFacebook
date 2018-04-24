@@ -87,9 +87,9 @@ while ($error) {
     // Resize all images before uplod
     echo "Resize photos for photograph ".$p.".".PHP_EOL;
     resizeImageFromFolder($config['cloudPath']."/".$choice."/".$p, $config['imgSize']);
-    // Wait for sync
-    sleep(5);
   }
+  // Wait for sync
+  sleep(5);
   foreach($pgrapher as $p) {
     $dir = scandirStrict($config['cloudPath']."/".$choice."/".$p);
     foreach($dir as $photo) {
